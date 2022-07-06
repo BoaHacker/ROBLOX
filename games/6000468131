@@ -57,28 +57,24 @@ Main:AddToggle('Auto Escape Traps', function(state)
 		if character:WaitForChild('Humanoid').WalkSpeed == 0 then
 			character:WaitForChild('Humanoid').WalkSpeed = 9
 		end
-		game.ReplicatedStorage.Events.EscapedTrap:FireServer()
+		game.ReplicatedStorage.Events.EscapeTrap:FireServer()
 	end
 end)
 
-Main:AddButton('Open Doors', function()
-	for i, v in pairs(workspace.Map[maps[game.ReplicatedStorage.Game.Mapid.Value]].Interacts:GetChildren()) do
-		if v.Name == 'Door' or v.Name == 'DoubleDoor' then
-			if v.Settings.Status.Value == 'Close' then
-				game.ReplicatedStorage.Events.Interact:FireServer(v)
-			end
+Main:AddButton('Kill All (Granny)', function()
+	if not player.Character:FindFirstChild('IsEnemy') or killing then return end
+	killing = true
+	for i, v in pairs(game.Players:GetChildren()) do
+		if v ~= player and v.Character then
+			repeat
+				game.ReplicatedStorage.Events.Attack:FireServer()
+				player.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
+				wait()
+			until v.Character:FindFirstChild('Dead')
 		end
 	end
-end)
-
-Main:AddButton('Close Doors', function()
-	for i, v in pairs(workspace.Map[maps[game.ReplicatedStorage.Game.Mapid.Value]].Interacts:GetChildren()) do
-		if v.Name == 'Door' or v.Name == 'DoubleDoor' then
-			if v.Settings.Status.Value == 'Open' then
-				game.ReplicatedStorage.Events.Interact:FireServer(v)
-			end
-		end
-	end
+	wait(1)
+	killing = false
 end)
 
 local winA = {
@@ -124,9 +120,10 @@ end)
 
 Player:AddToggle('Infinite Jump', function(state)
 	getgenv().InfiniteJump = state
-	if not getgenv().InfiniteJump then if not getgenv().Noclip and player.Character.Humanoid.WalkSpeed == 9 and player.Character.Humanoid.JumpPower == 0 then player.Character.System.Disabled = false end return end
+	if not getgenv().InfiniteJump then if not getgenv().Noclip and player.Character.Humanoid.WalkSpeed == 9 and player.Character.Humanoid.JumpPower == 0 then player.Character.System.Disabled = false player.PlayerScripts.Client.Disabled = false end return end
 	game.UserInputService.JumpRequest:connect(function()
 		if not getgenv().InfiniteJump then return end
+		player.PlayerScripts.Client.Disabled = true
 		player.Character.System.Disabled = true
 		player.Character.Humanoid:ChangeState('Jumping')
 	end)
@@ -230,7 +227,8 @@ end)
 Player:AddToggle('Noclip', function(state)
 	getgenv().Noclip = state
 	while true do
-		if not getgenv().Noclip then if not getgenv().InfiniteJump and player.Character.Humanoid.WalkSpeed == 9 and player.Character.Humanoid.JumpPower == 0 then player.Character.HumanoidRootPart.CanCollide = true player.Character.System.Disabled = false end return end
+		if not getgenv().Noclip then if not getgenv().InfiniteJump and player.Character.Humanoid.WalkSpeed == 9 and player.Character.Humanoid.JumpPower == 0 then player.Character.HumanoidRootPart.CanCollide = true player.Character.System.Disabled = false player.PlayerScripts.Client.Disabled = false end return end
+		player.PlayerScripts.Client.Disabled = true
 		player.Character.System.Disabled = true
 		game.RunService.Stepped:wait()
 		for i, v in pairs(player.Character:GetDescendants()) do
@@ -251,6 +249,7 @@ end)
 
 Player:AddBox('Walkspeed', function(state)
 	if tonumber(state.Text) ~= nil then
+		player.PlayerScripts.Client.Disabled = true
 		player.Character.System.Disabled = true
 		player.Character.Humanoid.WalkSpeed = state.Text
 	end
@@ -258,6 +257,7 @@ end)
 
 Player:AddBox('Jumppower', function(state)
 	if tonumber(state.Text) ~= nil then
+		player.PlayerScripts.Client.Disabled = true
 		player.Character.System.Disabled = true
 		player.Character.Humanoid.JumpPower = state.Text
 	end
@@ -274,6 +274,7 @@ Player:AddButton('Reset to Default', function()
 	player.Character.Humanoid.JumpPower = 0
 	workspace.Gravity = 196.2
 	player.Character.System.Disabled = false
+	player.PlayerScripts.Client.Disabled = false
 end)
 
 Settings:AddButton('Destroy UI', function()
@@ -289,4 +290,5 @@ Settings:AddButton('Destroy UI', function()
 	player.Character.Humanoid.JumpPower = 0
 	workspace.Gravity = 196.2
 	player.Character.System.Disabled = false
+	player.PlayerScripts.Client.Disabled = false
 end)
