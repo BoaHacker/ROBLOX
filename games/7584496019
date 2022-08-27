@@ -24,31 +24,8 @@ local Settings = ui:CreateWindow({
 	text = 'Settings'
 })
 
-function Teleport(cframe)
-	player.Character.HumanoidRootPart.CFrame = CFrame.new(cframe.x, cframe.y + 5, cframe.z) * CFrame.Angles(0, math.rad(player.Character.HumanoidRootPart.Orientation.Y), 0)
-end
-function randomTile()
-	local model = workspace.Map.Game.Tiles.Left:GetChildren()
-	local tile = model[math.random(1, #model)]
-	local rightTile = workspace.Map.Game.Tiles.Right:FindFirstChild(tile.Name)
-	if tile.Name ~= 'Wedge' and tile.Color == Color3.fromRGB(198, 237, 255) and rightTile.Color == Color3.fromRGB(198, 237, 255) then
-		repeat
-			wait(0.1)
-			Teleport(tile.CFrame)
-			wait(0.1)
-			Teleport(rightTile.CFrame)
-		until player.Character.Humanoid.Health == 0
-	else
-		randomTile()
-	end
-end
-player.CharacterAdded:Connect(function()
-	if not getgenv().AutoChecker then return end
-	randomTile()
-end)
 Main:AddToggle('Auto Checker', function(state)
 	getgenv().AutoChecker = state
-	if getgenv().AutoChecker then randomTile() end
 	while true do
 		if not getgenv().AutoChecker then return end
 		wait()
@@ -66,7 +43,6 @@ Main:AddButton('Clear Tiles', function()
 			v.Color = Color3.fromRGB(198, 237, 255)
 		end
 	end
-	if getgenv().AutoChecker then randomTile() end
 end)
 
 Player:AddToggle('Infinite Jump', function(state)
