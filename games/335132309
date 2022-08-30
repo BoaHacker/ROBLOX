@@ -102,31 +102,31 @@ Main:AddButton('Get Gun', function()
 end)
 
 Emotes:AddButton('Sit', function()
-	game.ReplicatedStorage.PlayEmote:Fire('sit')
+	game.ReplicatedStorage.Remotes.Misc.PlayEmote:Fire('sit')
 end)
 
 Emotes:AddButton('Ninja Rest', function()
-	game.ReplicatedStorage.PlayEmote:Fire('ninja')
+	game.ReplicatedStorage.Remotes.Misc.PlayEmote:Fire('ninja')
 end)
 
 Emotes:AddButton('Dab', function()
-	game.ReplicatedStorage.PlayEmote:Fire('dab')
+	game.ReplicatedStorage.Remotes.Misc.PlayEmote:Fire('dab')
 end)
 
 Emotes:AddButton('Floss', function()
-	game.ReplicatedStorage.PlayEmote:Fire('floss')
+	game.ReplicatedStorage.Remotes.Misc.PlayEmote:Fire('floss')
 end)
 
 Emotes:AddButton('Zen', function()
-	game.ReplicatedStorage.PlayEmote:Fire('zen')
+	game.ReplicatedStorage.Remotes.Misc.PlayEmote:Fire('zen')
 end)
 
 Emotes:AddButton('Zombie', function()
-	game.ReplicatedStorage.PlayEmote:Fire('zombie')
+	game.ReplicatedStorage.Remotes.Misc.PlayEmote:Fire('zombie')
 end)
 
 Emotes:AddButton('Headless', function()
-	game.ReplicatedStorage.PlayEmote:Fire('headless')
+	game.ReplicatedStorage.Remotes.Misc.PlayEmote:Fire('headless')
 end)
 
 Teleports:AddButton('Lobby', function()
