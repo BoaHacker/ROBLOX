@@ -88,14 +88,41 @@ local pigeonsLocations = {
 	['Skyrat_18'] = CFrame.new(842.577, 11.9745, -336.895)
 }
 Main:AddButton('Collect Pigeons', function()
+	if game.BadgeService:UserHasBadge(player.UserId, 2125848416) or getting then return end
+	getting = true
 	for i, v in pairs(pigeonsLocations) do
 		repeat
-			if not game.BadgeService:UserHasBadge(player.UserId, 2125848416) then
-				wait()
-				player.Character.HumanoidRootPart.CFrame = v
-			end
+			wait()
+			player.Character.HumanoidRootPart.CFrame = v
 		until workspace.ScavengerHunt.NeverCatchPigeons[i]:FindFirstChild('Skyrat') and workspace.ScavengerHunt.NeverCatchPigeons[i]:FindFirstChild('Skyrat').Transparency == 1
 	end
+	wait(1)
+	getting = false
+end)
+
+local pencilcasesLocations = {
+	['PencilCase_01'] = CFrame.new(-935.498, 61.7087, 820.129),
+	['PencilCase_02'] = CFrame.new(-800.435, 66.7958, -1000.8),
+	['PencilCase_03'] = CFrame.new(409.674, 156.307, -996.772),
+	['PencilCase_04'] = CFrame.new(-593.598, 44.5374, -92.3257),
+	['PencilCase_05'] = CFrame.new(58.0193, 63.7172, -107.564),
+	['PencilCase_06'] = CFrame.new(21.2702, 125.12, -767.713),
+	['PencilCase_07'] = CFrame.new(-11.3859, 61.3636, 579.761),
+	['PencilCase_08'] = CFrame.new(1075.23, 65.5158, -1018.69),
+	['PencilCase_09'] = CFrame.new(-169.741, 212.124, -711.926),
+	['PencilCase_10'] = CFrame.new(122.475, 138.011, -1243.29)
+}
+Main:AddButton('Collect PencilCases', function()
+	if game.BadgeService:UserHasBadge(player.UserId, 2128117699) or getting then return end
+	getting = true
+	for i, v in pairs(pencilcasesLocations) do
+		repeat
+			wait()
+			player.Character.HumanoidRootPart.CFrame = v
+		until workspace.ScavengerHunt.BackToSchool[i]:FindFirstChild('PencilCase') and workspace.ScavengerHunt.BackToSchool[i]:FindFirstChild('PencilCase').Transparency == 1
+	end
+	wait(1)
+	getting = false
 end)
 
 Player:AddToggle('Infinite Jump', function(state)
